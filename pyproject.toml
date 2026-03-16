@@ -1,0 +1,25 @@
+[project]
+name = "cinepolis-reservation"
+version = "0.1.0"
+description = "Cinépolis reservation RESTful system."
+
+authors = [
+    {name = "Yuri Teixeira", email = "yuriteixeirac@proton.me"}
+]
+
+readme = "README.md"
+
+requires-python = ">=3.13"
+dependencies = [
+    "django (>=6.0.3,<7.0.0)",
+    "djangorestframework (>=3.16.1,<4.0.0)",
+    "psycopg (>=3.3.3,<4.0.0)",
+    "djangorestframework-simplejwt (>=5.5.1,<6.0.0)"
+]
+
+[tool.poetry]
+packages = []
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
