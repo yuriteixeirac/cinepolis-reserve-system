@@ -20,9 +20,9 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser):
     class Meta:
-        db_table = 'users'
+        app_label = 'accounts'
 
-    
+        
     username = models.CharField(max_length=50, unique=True)
     email = models.EmailField(unique=True)
 
