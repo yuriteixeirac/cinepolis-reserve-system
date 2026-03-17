@@ -1,6 +1,6 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from source.accounts.models import User
+from accounts.models import User
 
 
 @api_view(['POST'])

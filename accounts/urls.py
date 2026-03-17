@@ -1,5 +1,5 @@
 from django.urls import path
-from source.accounts.views import register_user, login_user
+from accounts.views import register_user, login_user
 from rest_framework_simplejwt.views import TokenVerifyView, TokenRefreshView
 
 

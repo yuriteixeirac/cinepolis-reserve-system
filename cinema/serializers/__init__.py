@@ -1,0 +1,5 @@
+from cinema.serializers.movie_serializer import MovieSerializer
+from cinema.serializers.room_serializer import RoomSerializer
+from cinema.serializers.session_serializer import SessionSerializer
+from cinema.serializers.seat_serializer import SeatSerializer
+from cinema.serializers.movie_session_seats_serializer import MovieSessionSeatsSerializer

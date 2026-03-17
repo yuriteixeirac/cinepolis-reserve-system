@@ -6,4 +6,5 @@ from rest_framework_simplejwt.views import (
 
 urlpatterns = [
     path('api/', include('accounts.urls')),
+    path('cinema/', include('cinema.urls')),
 ]
