@@ -1,6 +1,6 @@
 from django.urls import path
 from rest_framework.routers import DefaultRouter
-from cinema.views import MovieViewSet, SessionView, SeatView, MovieSessionSeatsView
+from cinema.views import * # type: ignore
 
 router = DefaultRouter()
 router.register(r'movies', MovieViewSet)
@@ -14,6 +14,9 @@ urlpatterns = [
 
     # sessions that are playing a given movie
     path('session/<int:movie_id>', SessionView.as_view()),
+
+    path('session/<int:session_id>/seat/<int:seat_id>/purchase/', purchase_ticket),
+    path('session/<int:session_id>/seat/<int:seat_id>/reserve/', reserve_ticket)
 ]
 
 urlpatterns += router.urls

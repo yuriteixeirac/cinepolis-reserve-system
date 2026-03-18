@@ -2,14 +2,14 @@ from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated
 from cinema.serializers import MovieSessionSeatsSerializer
 from cinema.models import Movie, Session
 
 
 class MovieSessionSeatsView(APIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, movie_id=None):
         if not movie_id:

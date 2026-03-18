@@ -11,4 +11,9 @@ class MovieSessionSeatsSerializer(serializers.Serializer):
 
     def get_seats(self, session):
         all_seats = session.room.seat_set.all()
-        return [SeatSerializer(seat).data for seat in all_seats]
+
+        return [
+            SeatSerializer(seat, context={
+                'session_id': self.session_id
+            }).data for seat in all_seats
+        ]

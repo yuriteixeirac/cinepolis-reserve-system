@@ -1,14 +1,14 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated
 from cinema.models import Session
 from cinema.serializers import SessionSerializer
 
 
 class SessionView(APIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
 
     def get(self, request, movie_id=None):
