@@ -1,7 +1,12 @@
+from dotenv import load_dotenv
 from pathlib import Path
+import os
+
+
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent
-SECRET_KEY = 'django-insecure-#@p!gjg25_^+om8*c2rq=-fg7j(_9mrn0bl+p#*9ax!&^frp_e'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = True
 
@@ -59,12 +64,12 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'cinepolis',
-        'USER': 'yuri',
-        'PASSWORD': '18102007',
-        'HOST': 'localhost',
-        'PORT': '3306'
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
     }
 }
 

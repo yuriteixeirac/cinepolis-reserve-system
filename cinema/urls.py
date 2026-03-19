@@ -13,7 +13,7 @@ urlpatterns = [
     path('seats/<int:session_id>', SeatView.as_view()), 
 
     # sessions that are playing a given movie
-    path('session/<int:movie_id>', SessionView.as_view()),
+    path('session/movie/<int:movie_id>', SessionView.as_view()),
 
     path('session/<int:session_id>/seat/<int:seat_id>/purchase/', purchase_ticket),
     path('session/<int:session_id>/seat/<int:seat_id>/reserve/', reserve_ticket)
