@@ -1,10 +1,10 @@
 from django.db import transaction
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from redis import Redis
 from cinema.models import Seat, Ticket, Session
+from cinema.tasks import expire_reservation_fallback
 
 redis = Redis()
 RESERVATION_TIME = 600  # 10 minutes
@@ -75,6 +75,11 @@ def reserve_ticket(request, session_id, seat_id):
 
     success = redis.set(
         key, user_id, ex=RESERVATION_TIME, nx=True
+    )
+    
+    expire_reservation_fallback.apply_async(    # type: ignore
+        args=[session_id, seat_id, user_id],
+        countdown=RESERVATION_TIME
     )
 
     if not success:
