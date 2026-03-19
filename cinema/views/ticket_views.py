@@ -1,16 +1,20 @@
 from django.db import transaction
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.pagination import LimitOffsetPagination
 from redis import Redis
 from cinema.models import Seat, Ticket, Session
+from cinema.serializers import TicketSerializer
+
 
 redis = Redis()
 RESERVATION_TIME = 600  # 10 minutes
 
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def purchase_ticket(request, session_id, seat_id):
     key = f'seat_lock:{session_id}:{seat_id}'
     user_id = str(request.user.id)
@@ -56,6 +60,7 @@ def purchase_ticket(request, session_id, seat_id):
 
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def reserve_ticket(request, session_id, seat_id):
     key = f'seat_lock:{session_id}:{seat_id}'
     user_id = str(request.user.id)
@@ -93,3 +98,18 @@ def reserve_ticket(request, session_id, seat_id):
     return Response({
         'success': 'Reserved seat successfully.'
     }, status=201)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_tickets(request):
+    tickets = Ticket.objects.filter(
+        user=request.user
+    )
+
+    paginator = LimitOffsetPagination()
+    page = paginator.paginate_queryset(tickets, request)
+
+    serializer = TicketSerializer(page, many=True)
+
+    return paginator.get_paginated_response(serializer.data)
