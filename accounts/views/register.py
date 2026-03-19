@@ -1,30 +1,28 @@
-from rest_framework.decorators import api_view
+from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from accounts.models import User
+from accounts.serializers import RegisterSerializer, UserSerializer
 
 
-@api_view(['POST'])
-def register_user(request):
-    username = request.data.get('username')
-    email = request.data.get('email')
-    password = request.data.get('password')
 
-    if not username or not email or not password:
-        return Response({
-            'error': 'All fields are mandatory.'
-        }, status=400)
+class RegisterView(GenericAPIView):
+    serializer_class = RegisterSerializer
 
-    try:
-        user = User.objects.create(username=username, email=email)
-        user.set_password(password)
-        user.save()
-    except Exception as e:
-        return Response({
-            'error': str(e)
-        }, status=400)
 
-    return Response({
-        'id': user.pk,
-        'username': user.username,
-        'email': user.email
-    }, status=201)
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        try:
+            user = User.objects.create(
+                username=serializer.validated_data.get('username'), 
+                email=serializer.validated_data.get('email')
+            )
+            user.set_password(serializer.validated_data.get('password'))
+            user.save()
+        except Exception as e:
+            return Response({
+                'error': str(e)
+            }, status=400)
+
+        return Response(UserSerializer(user).data, status=201)

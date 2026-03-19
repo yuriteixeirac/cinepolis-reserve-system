@@ -16,7 +16,9 @@ urlpatterns = [
     path('session/movie/<int:movie_id>', SessionView.as_view()),
 
     path('session/<int:session_id>/seat/<int:seat_id>/purchase/', purchase_ticket),
-    path('session/<int:session_id>/seat/<int:seat_id>/reserve/', reserve_ticket)
+    path('session/<int:session_id>/seat/<int:seat_id>/reserve/', reserve_ticket),
+
+    path('tickets/', get_tickets),
 ]
 
 urlpatterns += router.urls

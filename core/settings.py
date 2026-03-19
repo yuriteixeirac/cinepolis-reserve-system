@@ -21,16 +21,29 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt',
+    'drf_spectacular',
     'accounts',
     'cinema',
 ]
 
 REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 100,
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     )
+}
+
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Cinema API',
+    'DESCRIPTION': 'A RESTful API for managing a cinema.',
+    'VERSION': '0.1.0',
+    'SERVE_INCLUDE_SCHEMA': False
 }
 
 MIDDLEWARE = [
